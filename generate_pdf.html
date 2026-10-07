@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NyayaKavach - Technical Solution & Poster Content (PS-SIH26190)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    @page {
+      size: A4 portrait;
+      margin: 15mm;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #0f172a;
+      line-height: 1.5;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+      font-size: 11pt;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* Cover / Header */
+    .header-banner {
+      background: linear-gradient(135deg, #1e1b4b, #311b92, #0f172a);
+      color: #ffffff;
+      padding: 24px 30px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .header-banner h1 {
+      font-size: 24pt;
+      font-weight: 800;
+      margin: 0 0 6px 0;
+      color: #38bdf8;
+    }
+
+    .header-banner p {
+      margin: 0;
+      font-size: 11pt;
+      color: #94a3b8;
+    }
+
+    .badge-pill {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 9pt;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    h2 {
+      font-size: 14pt;
+      color: #1e293b;
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 4px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 12pt;
+      color: #0369a1;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    ul, ol {
+      margin-top: 0;
+      margin-bottom: 12px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      margin-bottom: 16px;
+      font-size: 9.5pt;
+    }
+
+    th {
+      background: #0f172a;
+      color: #ffffff;
+      text-align: left;
+      padding: 8px 10px;
+      font-weight: 700;
+    }
+
+    td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: #f1f5f9;
+      color: #0284c7;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 8.5pt;
+    }
+
+    .diagram-box {
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8pt;
+      line-height: 1.4;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+
+    /* Poster Grid Styling */
+    .poster-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .poster-panel {
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 14px;
+      background: #fafafa;
+    }
+
+    .poster-panel h4 {
+      margin: 0 0 8px 0;
+      color: #0369a1;
+      font-size: 11pt;
+      border-bottom: 1px dashed #cbd5e1;
+      padding-bottom: 4px;
+    }
+
+    .metric-grid {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .metric-box {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 10px;
+      border-radius: 8px;
+      width: 28%;
+    }
+
+    .metric-box .val {
+      font-size: 16pt;
+      font-weight: 800;
+      color: #38bdf8;
+      display: block;
+    }
+
+    .metric-box .lbl {
+      font-size: 7.5pt;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: TECHNICAL SOLUTION -->
+  <div class="header-banner">
+    <h1>NyayaKavach (न्यायकवच)</h1>
+    <p>Secure Digital Document Management System for Legal & Investigation Documents</p>
+    <div class="badge-pill">PROBLEM STATEMENT ID: PS-SIH26190 • MINISTRY OF HOME AFFAIRS</div>
+  </div>
+
+  <h2>1. Executive Summary & Problem Alignment</h2>
+  <p>Law enforcement agencies, courts, forensic labs, and legal departments process massive volumes of sensitive documents (FIRs, Charge Sheets, Witness Statements, Forensic Reports, Evidence Records, Judgments). The <strong>NyayaKavach</strong> system digitizes, encrypts, and immutably anchors all documents to a zero-trust blockchain audit ledger, resolving data fragmentation, tampering risks, and compliance friction.</p>
+
+  <h2>2. Complete Tech Stack Selection</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>Technology</th>
+        <th>Role & Rationale</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Frontend & UI</strong></td>
+        <td>React.js, TailwindCSS, PDF.js</td>
+        <td>High-speed web portal, responsive layout, dynamic watermarking rendering.</td>
+      </tr>
+      <tr>
+        <td><strong>Field Mobile App</strong></td>
+        <td>Flutter / React Native</td>
+        <td>Offline-first crime scene document scanning with GPS location & hardware timestamping.</td>
+      </tr>
+      <tr>
+        <td><strong>Backend API</strong></td>
+        <td>Node.js (Fastify) / Go (Golang)</td>
+        <td>High concurrency request handling, mTLS microservice API routing.</td>
+      </tr>
+      <tr>
+        <td><strong>AI & OCR Engine</strong></td>
+        <td>Python FastAPI, PaddleOCR, LayoutLM, Llama-3 NLP</td>
+        <td>Multi-lingual Indian legal document OCR (Hindi/English), metadata extraction, auto PII redaction.</td>
+      </tr>
+      <tr>
+        <td><strong>Search Engine</strong></td>
+        <td>Elasticsearch / Milvus Vector DB</td>
+        <td>Hybrid BM25 + Dense Vector Semantic Search for instant case file retrieval.</td>
+      </tr>
+      <tr>
+        <td><strong>Encrypted Vault</strong></td>
+        <td>MinIO / AWS S3 Sovereign Cloud</td>
+        <td>Object-level client-side envelope encryption using AES-256-GCM.</td>
+      </tr>
+      <tr>
+        <td><strong>Audit Ledger</strong></td>
+        <td>Hyperledger Fabric (Consortium Blockchain)</td>
+        <td>Immutable SHA-256 hash log preventing document tampering or backdating.</td>
+      </tr>
+      <tr>
+        <td><strong>eSign & Compliance</strong></td>
+        <td>CDAC eSign / Aadhaar eKYC / PKI</td>
+        <td>Legal validity under IT Act 2000 & Bharatiya Sakshya Adhiniyam (BSA) 2023 Sec 65B.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3. High-Level Architecture Topology</h2>
+  <div class="diagram-box">
++---------------------------------------------------------------------------------------------------+
+|                                 1. CLIENT ACCESS LAYER                                            |
+|   [ Police Station / IO ]    [ Forensic Lab (FSL) ]    [ Prosecution ]    [ Judiciary / Court ]   |
++---------------------------------------------------------------------------------------------------+
+                                                  | (HTTPS / TLS 1.3 / mTLS)
+                                                  v
++---------------------------------------------------------------------------------------------------+
+|                             2. ZERO-TRUST SECURITY GATEWAY                                        |
+|         [ Web Application Firewall ]  <--->  [ Keycloak IAM / Aadhaar eKYC / MFA ]                |
+|         [ Attribute & Role-Based Access Control Engine (ABAC / RBAC) ]                             |
++---------------------------------------------------------------------------------------------------+
+                                                  |
+                                                  v
++---------------------------------------------------------------------------------------------------+
+|                           3. CORE APPLICATION & AI MICROSERVICES                                  |
+|   +--------------------------+  +--------------------------+  +--------------------------------+  |
+|   |  API Gateway (Fastify/Go)|  |  Multi-Lingual AI OCR    |  |  Elasticsearch Hybrid Vector   |  |
+|   |                          |  |  & PII Redaction Engine  |  |  Semantic Search Engine        |  |
+|   +--------------------------+  +--------------------------+  +--------------------------------+  |
+|   +-------------------------------------------------------------------------------------------+  |
+|   |  Digital Signature Service (CDAC eSign / X.509 PKI / BSA 2023 Sec 65B Generator)           |  |
+|   +-------------------------------------------------------------------------------------------+  |
++---------------------------------------------------------------------------------------------------+
+                                                  |
+                                                  v
++---------------------------------------------------------------------------------------------------+
+|                        4. IMMUTABLE DATA STORAGE & BLOCKCHAIN LEDGER                              |
+|   +-----------------------------+  +------------------------------+  +------------------------+   |
+|   | PostgreSQL Database         |  | MinIO Object Store           |  | Hyperledger Fabric     |   |
+|   | (Structured Case Metadata)  |  | (AES-256 Encrypted Documents)|  | (Tamper-Proof Ledger)  |   |
+|   +-----------------------------+  +------------------------------+  +------------------------+   |
++---------------------------------------------------------------------------------------------------+
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- PAGE 2: WORKFLOW & SIH POSTER CONTENT -->
+  <h2>4. Data Lifecycle & Workflow Steps</h2>
+  <ol>
+    <td><strong>Ingestion & OCR</strong>: Mobile/Web upload $\rightarrow$ PaddleOCR extracts metadata (FIR No, BNS Secs) $\rightarrow$ PII redaction engine masks sensitive witness details.</td>
+    <td><strong>Encryption & Vault Storage</strong>: File encrypted with AES-256-GCM envelope encryption and saved to sovereign MinIO cloud vault.</td>
+    <td><strong>Blockchain Anchoring</strong>: SHA-256 cryptographic digest + Officer ID + Timestamp anchored to Hyperledger Fabric transaction log.</td>
+    <td><strong>Zero-Trust Sharing</strong>: ABAC permissions share file across Police, FSL, Prosecution, and Judiciary with live watermarking.</td>
+    <td><strong>Judicial Evidence Admissibility</strong>: Magistrate verifies hash integrity; system auto-generates BSA 2023 Sec 63/65B Certificate.</td>
+  </ol>
+
+  <hr style="border:0; border-top:2px solid #e2e8f0; margin: 20px 0;">
+
+  <h2>5. Smart India Hackathon (SIH) Poster Content Grid</h2>
+
+  <div class="poster-grid">
+    <div class="poster-panel">
+      <h4>PANEL 1: Problem Statement</h4>
+      <ul>
+        <li>Paper & digital fragmentation in police stations and courts.</li>
+        <li>Evidence tampering & backdated document manipulation.</li>
+        <li>PII exposure of protected witnesses and victims.</li>
+        <li>Severe judicial delays due to manual document tracking.</li>
+      </ul>
+    </div>
+
+    <div class="poster-panel">
+      <h4>PANEL 2: Proposed Solution</h4>
+      <ul>
+        <li>Unified sovereign legal document repository.</li>
+        <li>Blockchain SHA-256 immutable audit ledger.</li>
+        <li>Multi-lingual AI OCR & automated PII redaction.</li>
+        <li>Attribute-Based Access Control (ABAC) with watermarking.</li>
+      </ul>
+    </div>
+
+    <div class="poster-panel">
+      <h4>PANEL 3: Tech Stack Summary</h4>
+      <p><strong>UI</strong>: React.js, TailwindCSS, PDF.js, Flutter<br>
+      <strong>Backend</strong>: Node.js, Go, Python FastAPI<br>
+      <strong>AI</strong>: PaddleOCR, LayoutLM, Llama-3 NLP<br>
+      <strong>Crypto/Storage</strong>: MinIO (AES-256), Hyperledger Fabric, Keycloak IAM, CDAC eSign</p>
+    </div>
+
+    <div class="poster-panel">
+      <h4>PANEL 4: Key Innovations</h4>
+      <ul>
+        <li>Automated BSA 2023 Sec 65B e-Certificate generator.</li>
+        <li>Dynamic Forensic Watermarking (Viewer ID, IP, Time).</li>
+        <li>ICJS Interoperability API Bridge for Police/FSL/Court.</li>
+        <li>Zero-Knowledge evidence validity verification.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>PANEL 5 & 6: Measurable Impact & Metrics</h3>
+  <div class="metric-grid">
+    <div class="metric-box">
+      <span class="val">80%</span>
+      <span class="lbl">Faster Case Search</span>
+    </div>
+    <div class="metric-box">
+      <span class="val">100%</span>
+      <span class="lbl">Tamper Proof Ledger</span>
+    </div>
+    <div class="metric-box">
+      <span class="val">90%</span>
+      <span class="lbl">Paperless Transition</span>
+    </div>
+  </div>
+
+  <footer style="margin-top: 30px; text-align: center; font-size: 8.5pt; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+    NyayaKavach Project Proposal • Smart India Hackathon (SIH) • Ministry of Home Affairs (MHA)
+  </footer>
+
+</body>
+</html>
