@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NyayaKavach (न्यायकवच) | Secure Digital Document Management Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+  <!-- Security Alert Banner (Triggered on Tamper Simulation) -->
+  <div id="security-alert-banner" class="alert-banner" style="display: none;">
+    <div class="alert-content">
+      <i data-lucide="shield-alert" class="alert-icon"></i>
+      <div>
+        <strong>CRITICAL SECURITY ALERT: CRYPTOGRAPHIC HASH MISMATCH DETECTED!</strong>
+        <p>Document hash does not match Hyperledger Blockchain Ledger. Unauthorized modification attempt logged to security audit log.</p>
+      </div>
+    </div>
+    <button class="btn-alert-close" onclick="dismissAlert()">&times;</button>
+  </div>
+
+  <!-- Header Bar -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="logo-badge">
+        <i data-lucide="shield-check"></i>
+      </div>
+      <div>
+        <h1 class="brand-title">NyayaKavach <span class="hindi-title">(न्यायकवच)</span></h1>
+        <p class="brand-sub">Ministry of Home Affairs (MHA) • Secure Digital Document Vault</p>
+      </div>
+    </div>
+
+    <div class="nav-tabs">
+      <button class="nav-btn active" id="tab-demo" onclick="switchTab('demo')">
+        <i data-lucide="cpu"></i> System Simulator
+      </button>
+      <button class="nav-btn" id="tab-poster" onclick="switchTab('poster')">
+        <i data-lucide="layout"></i> Overview Panel
+      </button>
+      <button class="nav-btn" id="tab-architecture" onclick="switchTab('architecture')">
+        <i data-lucide="git-fork"></i> System Architecture
+      </button>
+    </div>
+
+    <div class="header-actions">
+      <div class="role-selector">
+        <label><i data-lucide="user-check"></i> Active Role:</label>
+        <select id="user-role-select" onchange="changeUserRole()">
+          <option value="police">Investigating Officer (Police)</option>
+          <option value="fsl">Forensic Expert (FSL)</option>
+          <option value="prosecutor">Public Prosecutor</option>
+          <option value="judge" selected>Magistrate / Judge</option>
+          <option value="defense">Defense Counsel</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    
+    <!-- SECTION 1: SYSTEM SIMULATOR -->
+    <section id="view-demo" class="view-section active">
+      <div class="dashboard-grid">
+        
+        <!-- Left Column: Document Ingestion & AI OCR Engine -->
+        <div class="dash-card">
+          <div class="card-header">
+            <h3><i data-lucide="file-plus"></i> Ingestion & Multi-Lingual AI OCR Engine</h3>
+            <span class="badge badge-accent">Live Engine</span>
+          </div>
+          <div class="card-body">
+            <p class="section-desc">Upload or select a legal document to simulate multi-lingual OCR metadata indexing, victim PII redaction, and SHA-256 blockchain hashing.</p>
+            
+            <div class="sample-picker">
+              <label>Pre-loaded Sample Documents:</label>
+              <div class="sample-btns">
+                <button class="sample-btn active" onclick="loadSampleDoc('fir')">FIR Report #0402/2026</button>
+                <button class="sample-btn" onclick="loadSampleDoc('fsl')">Forensic Ballistics Report</button>
+                <button class="sample-btn" onclick="loadSampleDoc('chargesheet')">Charge Sheet #88-BNS</button>
+              </div>
+            </div>
+
+            <div class="drop-zone" id="drop-zone" onclick="triggerFileUpload()">
+              <i data-lucide="upload-cloud" class="upload-icon"></i>
+              <p><strong>Click to upload document file</strong> or drag & drop here</p>
+              <span class="file-types">Supports PDF, PNG, JPG (FIRs, Charge Sheets, Forensics)</span>
+              <input type="file" id="file-input" style="display:none" onchange="handleFileSelect(event)">
+            </div>
+
+            <!-- Ingestion Live Progress Bar -->
+            <div class="ingest-progress" id="ingest-progress" style="display: none;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+              </div>
+              <span class="progress-status" id="progress-status">Initializing PaddleOCR Layout Model...</span>
+            </div>
+
+            <!-- Extracted Metadata Display Card -->
+            <div class="metadata-card" id="metadata-box">
+              <h4><i data-lucide="scan"></i> Extracted Metadata (AI Engine)</h4>
+              <div class="meta-grid">
+                <div class="meta-item"><span class="meta-lbl">Doc Type:</span> <strong id="m-type">First Information Report (FIR)</strong></div>
+                <div class="meta-item"><span class="meta-lbl">Case ID:</span> <strong id="m-case">FIR-2026-DL-8849</strong></div>
+                <div class="meta-item"><span class="meta-lbl">IPC / BNS Sec:</span> <strong id="m-sections" class="text-warning">BNS 304, 316 / Arms Act 25</strong></div>
+                <div class="meta-item"><span class="meta-lbl">Police Station:</span> <strong id="m-station">Connaught Place PS, New Delhi</strong></div>
+                <div class="meta-item"><span class="meta-lbl">PII Status:</span> <strong id="m-pii" class="text-success"><i data-lucide="eye-off"></i> Victim Identity Auto-Redacted</strong></div>
+                <div class="meta-item full-span"><span class="meta-lbl">SHA-256 Hash Digest:</span> <code id="m-hash">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code></div>
+              </div>
+              
+              <div class="action-row">
+                <button class="btn btn-primary" onclick="anchorToBlockchain()"><i data-lucide="link"></i> Anchor Hash to Hyperledger Ledger</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Column: Document Viewer & Security Watermark -->
+        <div class="dash-card">
+          <div class="card-header">
+            <h3><i data-lucide="file-text"></i> Live Document Preview & Dynamic Watermark</h3>
+            <div class="badge-group">
+              <span class="badge badge-success" id="access-badge">Permission: Granted</span>
+              <span class="badge badge-outline" id="role-badge">Role: Magistrate / Judge</span>
+            </div>
+          </div>
+          <div class="card-body">
+            
+            <div class="document-viewer-container" id="doc-viewer">
+              <div class="watermark-overlay" id="watermark">
+                RESTRICTED COPY • ACCESS BY: JUDGE_USER • IP: 10.240.12.89 • 2026-09-09 22:53
+              </div>
+              
+              <div class="doc-paper" id="doc-paper-content">
+                <!-- Document paper rendered via JS -->
+              </div>
+            </div>
+
+            <div class="doc-controls">
+              <button class="btn btn-secondary" onclick="generateSec65B()"><i data-lucide="award"></i> Generate BSA Sec 65B Certificate</button>
+              <button class="btn btn-danger" onclick="simulateTamper()"><i data-lucide="alert-triangle"></i> Simulate Tamper Test</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Width Bottom Column: Immutable Blockchain Ledger & Audit Trail -->
+        <div class="dash-card full-width">
+          <div class="card-header">
+            <h3><i data-lucide="database"></i> Immutable Blockchain Audit Trail (Hyperledger Fabric Ledger)</h3>
+            <div class="ledger-header-actions">
+              <input type="text" id="ledger-search" placeholder="Search TxID, Case ID, or Actor..." onkeyup="filterLedger()" class="search-input">
+              <span class="badge badge-info"><i data-lucide="shield-check"></i> Zero-Trust Audit Active</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="ledger-table">
+                <thead>
+                  <tr>
+                    <th>Tx ID</th>
+                    <th>Timestamp</th>
+                    <th>Document ID</th>
+                    <th>Action</th>
+                    <th>Actor Role & Station</th>
+                    <th>Cryptographic SHA-256 Hash</th>
+                    <th>Integrity Status</th>
+                  </tr>
+                </thead>
+                <tbody id="ledger-rows">
+                  <!-- Dynamic Ledger Rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- SECTION 2: SYSTEM OVERVIEW PANEL -->
+    <section id="view-poster" class="view-section">
+      <div class="poster-container">
+        
+        <div class="poster-banner">
+          <div class="poster-header-content">
+            <span class="poster-tag">MINISTRY OF HOME AFFAIRS • SOVEREIGN LEGAL VAULT</span>
+            <h2 class="poster-title">NyayaKavach (न्यायकवच)</h2>
+            <p class="poster-subtitle">Secure Digital Document Management System for Legal & Investigation Documents</p>
+          </div>
+          <div class="poster-badge-box">
+            <span class="p-badge">Enterprise Solution</span>
+            <span class="p-badge">Category: Legal Tech</span>
+          </div>
+        </div>
+
+        <div class="poster-grid">
+          
+          <div class="poster-panel">
+            <div class="panel-num">PANEL 1</div>
+            <h3><i data-lucide="alert-circle"></i> Problem Statement</h3>
+            <ul class="poster-list">
+              <li><strong>Physical Fragmentation:</strong> Millions of paper FIRs, witness statements, and forensic reports stored in unorganized silos.</li>
+              <li><strong>Tampering & Backdating:</strong> Susceptibility to illegal modifications, evidence destruction, and missing files.</li>
+              <li><strong>Inter-Agency Friction:</strong> Severe delays sharing records between Police, FSL, Prosecutors, and Judiciary.</li>
+              <li><strong>Lack of Auditability:</strong> No unified, verifiable cryptographic log for court evidence submission.</li>
+            </ul>
+          </div>
+
+          <div class="poster-panel highlight-panel">
+            <div class="panel-num">PANEL 2</div>
+            <h3><i data-lucide="shield"></i> Proposed Solution</h3>
+            <ul class="poster-list">
+              <li><strong>Sovereign Cloud Repository:</strong> Unified zero-trust document vault for all Indian criminal justice departments.</li>
+              <li><strong>Blockchain Audit Ledger:</strong> Immutable SHA-256 Merkle Tree tracking every upload, edit, transfer, and view.</li>
+              <li><strong>AI Multi-Lingual OCR:</strong> Automated layout parsing, metadata indexing, and victim PII redaction.</li>
+              <li><strong>Dynamic ABAC Control:</strong> Fine-grained permissions based on role, case state, and legal clearance.</li>
+            </ul>
+          </div>
+
+          <div class="poster-panel">
+            <div class="panel-num">PANEL 3</div>
+            <h3><i data-lucide="cpu"></i> System Tech Stack</h3>
+            <div class="tech-grid-compact">
+              <span class="tech-chip">React.js</span>
+              <span class="tech-chip">Node.js</span>
+              <span class="tech-chip">Python FastAPI</span>
+              <span class="tech-chip">PaddleOCR</span>
+              <span class="tech-chip">PostgreSQL</span>
+              <span class="tech-chip">Elasticsearch</span>
+              <span class="tech-chip">MinIO (S3)</span>
+              <span class="tech-chip">Hyperledger Fabric</span>
+              <span class="tech-chip">eSign (CDAC)</span>
+              <span class="tech-chip">Keycloak IAM</span>
+            </div>
+          </div>
+
+          <div class="poster-panel">
+            <div class="panel-num">PANEL 4</div>
+            <h3><i data-lucide="sparkles"></i> Core Innovations</h3>
+            <ul class="poster-list">
+              <li><strong>BSA 2023 Sec 65B Auto-Gen:</strong> Instant legal e-Certificate for electronic evidence admissibility.</li>
+              <li><strong>Dynamic Watermarking:</strong> Overlays viewer ID, IP address, and timestamp to stop screenshot leaks.</li>
+              <li><strong>ICJS Integration Bridge:</strong> Inter-operable APIs for seamless Police ↔ FSL ↔ Court workflow.</li>
+              <li><strong>Offline Field Scan:</strong> Mobile app with geo-tagging & trusted device timestamping at crime scenes.</li>
+            </ul>
+          </div>
+
+          <div class="poster-panel">
+            <div class="panel-num">PANEL 5</div>
+            <h3><i data-lucide="git-commit"></i> Workflow Lifecycle</h3>
+            <div class="workflow-steps">
+              <div class="wf-step"><span class="step-num">1</span> Police Station Ingestion & AI OCR</div>
+              <div class="wf-step"><span class="step-num">2</span> AES-256 Encryption & MinIO Vault</div>
+              <div class="wf-step"><span class="step-num">3</span> Hash Anchoring to Blockchain</div>
+              <div class="wf-step"><span class="step-num">4</span> eSign & Judicial Verification</div>
+            </div>
+          </div>
+
+          <div class="poster-panel">
+            <div class="panel-num">PANEL 6</div>
+            <h3><i data-lucide="trending-up"></i> Expected Impact</h3>
+            <div class="metrics-row">
+              <div class="metric-box">
+                <span class="metric-val">80%</span>
+                <span class="metric-lbl">Faster Case Search</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-val">100%</span>
+                <span class="metric-lbl">Tamper Proof</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-val">90%</span>
+                <span class="metric-lbl">Paperless Transition</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SECTION 3: ARCHITECTURE VIEW -->
+    <section id="view-architecture" class="view-section">
+      <div class="dash-card full-width">
+        <div class="card-header">
+          <h3><i data-lucide="git-fork"></i> NyayaKavach Architecture & Subsystem Diagram</h3>
+        </div>
+        <div class="card-body">
+          <div class="arch-flow-grid">
+            <div class="arch-box">
+              <div class="arch-icon"><i data-lucide="users"></i></div>
+              <h4>1. Multi-Agency Clients</h4>
+              <p>Police Stations, FSL Labs, Prosecutors, Courts, Mobile Field Officers.</p>
+            </div>
+            <div class="arch-arrow"><i data-lucide="arrow-right"></i></div>
+            <div class="arch-box">
+              <div class="arch-icon"><i data-lucide="shield-check"></i></div>
+              <h4>2. Zero-Trust Security</h4>
+              <p>Keycloak IAM, Aadhaar eKYC, MFA, ABAC Permission Engine.</p>
+            </div>
+            <div class="arch-arrow"><i data-lucide="arrow-right"></i></div>
+            <div class="arch-box">
+              <div class="arch-icon"><i data-lucide="bot"></i></div>
+              <h4>3. AI & Indexing Core</h4>
+              <p>PaddleOCR, LayoutLM PII Redactor, Elasticsearch Vector Engine.</p>
+            </div>
+            <div class="arch-arrow"><i data-lucide="arrow-right"></i></div>
+            <div class="arch-box">
+              <div class="arch-icon"><i data-lucide="lock"></i></div>
+              <h4>4. Vault & Blockchain</h4>
+              <p>MinIO AES-256 Storage + Hyperledger Fabric Tamper-Proof Audit Ledger.</p>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="sec65b-preview">
+            <h4><i data-lucide="file-check"></i> Automated BSA 2023 Sec 65B Electronic Certificate Preview</h4>
+            <div class="cert-box">
+              <h5>CERTIFICATE UNDER SECTION 63 OF BHARATIYA SAKSHYA ADHINIYAM, 2023 (FORMERLY SEC 65B INDIAN EVIDENCE ACT)</h5>
+              <p>This is to certify that document <strong>FIR-2026-DL-8849</strong> was generated and processed by computer system <code>NYAYAKAVACH-NODE-04</code> located at Connaught Place PS.</p>
+              <p><strong>Cryptographic SHA-256 Hash:</strong> <code>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code></p>
+              <p><strong>Blockchain Transaction TxID:</strong> <code>0x9f88a1b...c441a7</code> (Recorded at 2026-09-09 22:53 UTC)</p>
+              <p><strong>System Integrity Status:</strong> Verified Unaltered & Authentic.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BSA 2023 Sec 65B Modal -->
+  <div class="modal-backdrop" id="cert-modal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i data-lucide="award"></i> Bharatiya Sakshya Adhiniyam 2023 - Sec 63 / 65B Certificate</h3>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-content">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="window.print()"><i data-lucide="printer"></i> Print Certificate</button>
+        <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
